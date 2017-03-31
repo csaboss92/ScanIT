@@ -5,6 +5,9 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
+import csaboss.scanit.ui.documentcapture.DocumentCapturePresenter;
+import csaboss.scanit.ui.documentdetails.DocumentDetailsPresenter;
+import csaboss.scanit.ui.documentlist.DocumentListPresenter;
 import csaboss.scanit.ui.login.LoginPresenter;
 import dagger.Module;
 import dagger.Provides;
@@ -24,8 +27,23 @@ public class UIModule {
 
     @Provides
     @Singleton
-    public LoginPresenter provideMainPresenter() {
+    public LoginPresenter provideLoginPresenter() {
         return new LoginPresenter();
     }
+    @Provides
+    @Singleton
+    public DocumentListPresenter provideDocumentListPresenter() {
+        return new DocumentListPresenter();
+    }
 
+    @Provides
+    @Singleton
+    public DocumentDetailsPresenter provideDocumentDetailsPresenter() {
+        return new DocumentDetailsPresenter();
+    }
+    @Provides
+    @Singleton
+    public DocumentCapturePresenter provideDocumentCapturePresenter() {
+        return new DocumentCapturePresenter();
+    }
 }
