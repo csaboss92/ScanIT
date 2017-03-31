@@ -1,4 +1,4 @@
-package csaboss.scanit.ui.main;
+package csaboss.scanit.ui.login;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,10 +9,10 @@ import javax.inject.Inject;
 import csaboss.scanit.R;
 import csaboss.scanit.ScanITApplication;
 
-public class MainActivity extends AppCompatActivity implements MainScreen {
+public class LoginActivity extends AppCompatActivity implements LoginScreen {
 
     @Inject
-    MainPresenter mainPresenter;
+    LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +26,13 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
     @Override
     protected void onStart() {
         super.onStart();
-        mainPresenter.attachScreen(this);
+        loginPresenter.attachScreen(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mainPresenter.detachScreen();
+        loginPresenter.detachScreen();
     }
 
     @Override

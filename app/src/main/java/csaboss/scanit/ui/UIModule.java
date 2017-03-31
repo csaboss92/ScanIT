@@ -5,7 +5,7 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
-import csaboss.scanit.ui.main.MainPresenter;
+import csaboss.scanit.ui.login.LoginPresenter;
 import dagger.Module;
 import dagger.Provides;
 
@@ -24,8 +24,8 @@ public class UIModule {
 
     @Provides
     @Singleton
-    public MainPresenter provideMainPresenter() {
-        return new MainPresenter();
+    public LoginPresenter provideMainPresenter() {
+        return new LoginPresenter();
     }
 
 }

@@ -1,18 +1,18 @@
-package csaboss.scanit.ui.main;
+package csaboss.scanit.ui.login;
 
 
 import csaboss.scanit.ui.Presenter;
 
 
-public class MainPresenter extends Presenter<MainScreen> {
+public class LoginPresenter extends Presenter<LoginScreen> {
 
 
 
-    public MainPresenter() {
+    public LoginPresenter() {
     }
 
     @Override
-    public void attachScreen(MainScreen screen) {
+    public void attachScreen(LoginScreen screen) {
         super.attachScreen(screen);
     }
 
