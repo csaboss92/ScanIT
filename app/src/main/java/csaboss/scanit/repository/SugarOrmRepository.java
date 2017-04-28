@@ -10,7 +10,7 @@ import java.util.List;
 import csaboss.scanit.model.Document;
 import csaboss.scanit.model.User;
 
-class SugarOrmRepository implements Repository {
+public class SugarOrmRepository implements Repository {
 
 
     @Override
@@ -44,7 +44,7 @@ class SugarOrmRepository implements Repository {
     }
 
     @Override
-    public List<Document> getDocuments(long id) {
+    public List<Document> getDocuments() {
         return SugarRecord.listAll(Document.class);
     }
 
@@ -58,8 +58,5 @@ class SugarOrmRepository implements Repository {
         SugarRecord.delete(document);
     }
 
-    @Override
-    public boolean isInDB(Document document) {
-        return SugarRecord.findById(Document.class, document.getId()) != null;
-    }
+
 }

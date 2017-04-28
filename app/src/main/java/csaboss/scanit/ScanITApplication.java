@@ -2,20 +2,29 @@ package csaboss.scanit;
 
 import android.app.Application;
 
+import javax.inject.Inject;
+
+import csaboss.scanit.repository.Repository;
 import csaboss.scanit.ui.UIModule;
 
 public class ScanITApplication extends Application {
 
-	public static ScanITApplicationComponent injector;
+    @Inject
+    Repository repository;
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
+    public static ScanITApplicationComponent injector;
 
-		injector =
-				DaggerScanITApplicationComponent.builder().
-						uIModule(
-								new UIModule(this)
-						).build();
-	}
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        injector =
+                DaggerScanITApplicationComponent.builder().
+                        uIModule(
+                                new UIModule(this)
+                        ).build();
+
+        injector.inject(this);
+        repository.open(getApplicationContext());
+    }
 }

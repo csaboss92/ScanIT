@@ -56,7 +56,7 @@ public class MemoryRepository implements Repository {
     }
 
     @Override
-    public List<Document> getDocuments(long id) {
+    public List<Document> getDocuments() {
         return documents;
     }
 
@@ -70,8 +70,4 @@ public class MemoryRepository implements Repository {
         documents.remove(document);
     }
 
-    @Override
-    public boolean isInDB(Document document) {
-        return documents.contains(document);
     }
-}

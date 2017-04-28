@@ -7,7 +7,7 @@ import java.util.List;
 import csaboss.scanit.model.Document;
 import csaboss.scanit.model.User;
 
-interface Repository {
+public interface Repository {
 
     void open(Context context);
 
@@ -21,11 +21,9 @@ interface Repository {
 
     Document getDocument(long id);
 
-    List<Document> getDocuments(long id);
+    List<Document> getDocuments();
 
     void addDocument(Document document);
 
     void removeDocument(Document document);
-
-    boolean isInDB(Document document);
 }
