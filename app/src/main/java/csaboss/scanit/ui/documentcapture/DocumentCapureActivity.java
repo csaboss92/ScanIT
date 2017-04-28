@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import csaboss.scanit.R;
 import csaboss.scanit.ScanITApplication;
+import csaboss.scanit.model.Document;
 
 public class DocumentCapureActivity extends AppCompatActivity implements DocumentCapureScreen {
 
@@ -16,7 +17,8 @@ public class DocumentCapureActivity extends AppCompatActivity implements Documen
 
     public void capture(){
         //TODO btn click
-        documentCapturePresenter.captureDocument();
+        Document document = new Document();
+        documentCapturePresenter.saveDocument(document);
     }
 
     @Override

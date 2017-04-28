@@ -8,10 +8,14 @@ import csaboss.scanit.interactor.user.UserInteractor;
 import csaboss.scanit.repository.Repository;
 import csaboss.scanit.repository.RepositoryModule;
 import csaboss.scanit.ui.UIModule;
+import csaboss.scanit.ui.documentcapture.DocumentCapturePresenter;
 import csaboss.scanit.ui.documentcapture.DocumentCapureActivity;
 import csaboss.scanit.ui.documentdetails.DocumentDetailsActivity;
+import csaboss.scanit.ui.documentdetails.DocumentDetailsPresenter;
 import csaboss.scanit.ui.documentlist.DocumentListActivity;
+import csaboss.scanit.ui.documentlist.DocumentListPresenter;
 import csaboss.scanit.ui.login.LoginActivity;
+import csaboss.scanit.ui.login.LoginPresenter;
 import dagger.Component;
 
 @Singleton
@@ -30,4 +34,12 @@ public interface ScanITApplicationComponent {
     void inject(DocumentInteractor documentInteractor);
 
     void inject(ScanITApplication scanITApplication);
+
+    void inject(LoginPresenter loginPresenter);
+
+    void inject(DocumentListPresenter documentListPresenter);
+
+    void inject(DocumentDetailsPresenter documentDetailsPresenter);
+
+    void inject(DocumentCapturePresenter documentCapturePresenter);
 }

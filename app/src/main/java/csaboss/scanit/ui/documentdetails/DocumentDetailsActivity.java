@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import csaboss.scanit.R;
 import csaboss.scanit.ScanITApplication;
+import csaboss.scanit.model.Document;
 
 public class DocumentDetailsActivity extends AppCompatActivity implements DocumentDetailsScreen {
 
@@ -19,7 +20,6 @@ public class DocumentDetailsActivity extends AppCompatActivity implements Docume
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //TODO inject
         ScanITApplication.injector.inject(this);
 
     }
@@ -38,8 +38,8 @@ public class DocumentDetailsActivity extends AppCompatActivity implements Docume
     }
 
     @Override
-    public void showDocument(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    public void showDocument(Document document) {
+        Toast.makeText(this, document.getText(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class DocumentDetailsActivity extends AppCompatActivity implements Docume
     }
 
     @Override
-    public void deleteFailed(String text) {
+    public void showError(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }

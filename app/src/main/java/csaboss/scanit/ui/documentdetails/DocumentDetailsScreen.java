@@ -1,7 +1,9 @@
 package csaboss.scanit.ui.documentdetails;
 
+import csaboss.scanit.model.Document;
+
 public interface DocumentDetailsScreen {
-    void showDocument(String document);
+    void showDocument(Document document);
     void deleteSuccess(String text);
-    void deleteFailed(String text);
+    void showError(String text);
 }

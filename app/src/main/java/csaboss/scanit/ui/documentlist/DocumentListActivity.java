@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import csaboss.scanit.R;
 import csaboss.scanit.ScanITApplication;
+import csaboss.scanit.model.Document;
 
 public class DocumentListActivity extends AppCompatActivity implements DocumentListScreen {
 
@@ -39,7 +40,12 @@ public class DocumentListActivity extends AppCompatActivity implements DocumentL
     }
 
     @Override
-    public void showDocumentList(List<String> documents) {
-        Toast.makeText(this, documents.get(0), Toast.LENGTH_SHORT).show();
+    public void showDocumentList(List<Document> documents) {
+        Toast.makeText(this, documents.get(0).getTitle(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showError(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }
