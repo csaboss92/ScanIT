@@ -9,6 +9,7 @@ import csaboss.scanit.interactor.user.events.DeleteUserEvent;
 import csaboss.scanit.interactor.user.events.GetUserEvent;
 import csaboss.scanit.interactor.user.events.SaveUserEvent;
 import csaboss.scanit.model.User;
+import csaboss.scanit.network.api.UserApi;
 import csaboss.scanit.repository.Repository;
 import de.greenrobot.event.EventBus;
 
@@ -18,6 +19,8 @@ public class UserInteractor {
     Repository repository;
     @Inject
     EventBus bus;
+    @Inject
+    UserApi userApi;
 
     public UserInteractor() {
         ScanITApplication.injector.inject(this);
@@ -39,6 +42,7 @@ public class UserInteractor {
     public void saveUser(User user) {
         SaveUserEvent event = new SaveUserEvent();
         try {
+            userApi.userLoginGet().execute();
             repository.saveUser(user);
             bus.post(event);
         } catch (Exception e) {

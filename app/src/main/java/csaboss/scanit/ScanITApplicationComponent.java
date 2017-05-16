@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import csaboss.scanit.interactor.InteractorModule;
 import csaboss.scanit.interactor.document.DocumentInteractor;
 import csaboss.scanit.interactor.user.UserInteractor;
+import csaboss.scanit.network.NetworkModule;
 import csaboss.scanit.repository.Repository;
 import csaboss.scanit.repository.RepositoryModule;
 import csaboss.scanit.ui.UIModule;
@@ -19,7 +20,7 @@ import csaboss.scanit.ui.login.LoginPresenter;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {UIModule.class, RepositoryModule.class, InteractorModule.class})
+@Component(modules = {UIModule.class, RepositoryModule.class, InteractorModule.class, NetworkModule.class})
 public interface ScanITApplicationComponent {
     void inject(LoginActivity loginActivity);
 

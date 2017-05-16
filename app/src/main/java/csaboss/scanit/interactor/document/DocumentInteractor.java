@@ -12,6 +12,7 @@ import csaboss.scanit.interactor.document.events.GetDocumentEvent;
 import csaboss.scanit.interactor.document.events.GetDocumentsEvent;
 import csaboss.scanit.interactor.document.events.RemoveDocumentEvent;
 import csaboss.scanit.model.Document;
+import csaboss.scanit.network.api.DocumentApi;
 import csaboss.scanit.repository.Repository;
 import de.greenrobot.event.EventBus;
 
@@ -21,6 +22,8 @@ public class DocumentInteractor {
     Repository repository;
     @Inject
     EventBus bus;
+    @Inject
+    DocumentApi documentApi;
 
     public DocumentInteractor() {
         ScanITApplication.injector.inject(this);
@@ -30,6 +33,9 @@ public class DocumentInteractor {
         GetDocumentEvent event = new GetDocumentEvent();
         try {
             Document document = repository.getDocument(id);
+            if (document==null){
+                documentApi.documentIdGet(id).execute();
+            }
             event.setDocument(document);
             bus.post(event);
         } catch (Exception e) {
@@ -41,6 +47,7 @@ public class DocumentInteractor {
     public void getDocuments() {
         GetDocumentsEvent event = new GetDocumentsEvent();
         try {
+            documentApi.documentGet().execute();
             List<Document> documents = repository.getDocuments();
             event.setDocuments(documents);
             bus.post(event);

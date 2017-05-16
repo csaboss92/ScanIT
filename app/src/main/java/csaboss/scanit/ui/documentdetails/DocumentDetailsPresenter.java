@@ -41,7 +41,7 @@ public class DocumentDetailsPresenter extends Presenter<DocumentDetailsScreen> {
         super.detachScreen();
     }
 
-    public void getDocument(final int id) {
+    public void getDocument(final long id) {
         executor.execute(new Runnable() {
             @Override
             public void run() {

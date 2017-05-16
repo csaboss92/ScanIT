@@ -1,13 +1,14 @@
 package csaboss.scanit.ui.documentcapture;
 
 import android.Manifest;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
@@ -19,12 +20,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
-import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,6 +35,8 @@ import csaboss.scanit.model.Document;
 public class DocumentCapureActivity extends AppCompatActivity implements DocumentCapureScreen {
     TextView tvOcrResult;
     TextView tvTitle;
+    String documentTitle;
+    String documentBody;
     SurfaceView cameraView;
     CameraSource cameraSource;
     final int RequestCameraPermissionID = 1001;
@@ -47,6 +48,8 @@ public class DocumentCapureActivity extends AppCompatActivity implements Documen
     public void capture() {
         //TODO btn click
         Document document = new Document();
+        document.setTitle(documentTitle);
+        document.setText(documentBody);
         documentCapturePresenter.saveDocument(document);
     }
 
@@ -113,32 +116,30 @@ public class DocumentCapureActivity extends AppCompatActivity implements Documen
             @Override
             public void onClick(View v) {
                 if (items.size() != 0) {
-                    tvTitle.setText(items.valueAt(0).getValue());
-                    tvOcrResult.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            StringBuilder sB = new StringBuilder();
-                            //int to = items.size() <= 3 ? items.size() : 3;
-                            if (items.size() > 1) {
-                                TextBlock item = items.valueAt(1);
-                                List<? extends Text> components = item.getComponents();
-                                int to = components.size() <= 2 ? items.size() : 2;
-                                for (int i = 0; i < to; i++) {
-                                    sB.append(components.get(i).getValue());
-                                    sB.append("\n");
-                                }
-                                sB.append("...");
-                                tvOcrResult.setText(sB.toString());
-                            }
+                    documentTitle = items.valueAt(0).getValue();
+                    StringBuilder sB = new StringBuilder();
+                    for (int i = 1; i < items.size(); ++i) {
+                        TextBlock item = items.valueAt(i);
+                        sB.append(item.getValue());
+                        sB.append("\n");
+                    }
+                    documentBody = sB.toString();
+                    int maxLength = documentBody.length() < 100 ? documentBody.length() : 100;
+                    String dialogMSG = documentTitle + "\n" + documentBody.substring(0, maxLength) + "...";
+                    new AlertDialog.Builder(new ContextThemeWrapper(DocumentCapureActivity.this, R.style.confirmDialog))
+                            .setTitle("Everything is ok? Can we save the document?")
+                            .setMessage(dialogMSG)
+                            .setIcon(android.R.drawable.ic_dialog_info)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                        }
-                    });
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    capture();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, null).show();
                 }
             }
         });
-
-
-        //TODO inject
         ScanITApplication.injector.inject(this);
     }
 
@@ -175,6 +176,7 @@ public class DocumentCapureActivity extends AppCompatActivity implements Documen
     @Override
     public void showSuccess(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override
