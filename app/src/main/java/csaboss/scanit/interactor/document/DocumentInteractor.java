@@ -15,6 +15,7 @@ import csaboss.scanit.model.Document;
 import csaboss.scanit.network.api.DocumentApi;
 import csaboss.scanit.repository.Repository;
 import de.greenrobot.event.EventBus;
+import retrofit2.Response;
 
 public class DocumentInteractor {
 
@@ -47,7 +48,8 @@ public class DocumentInteractor {
     public void getDocuments() {
         GetDocumentsEvent event = new GetDocumentsEvent();
         try {
-            documentApi.documentGet().execute();
+            //Logic needed to sync server and local db
+            Response res= documentApi.documentGet().execute();
             List<Document> documents = repository.getDocuments();
             event.setDocuments(documents);
             bus.post(event);
@@ -60,7 +62,13 @@ public class DocumentInteractor {
     public void addDocument(Document document) {
         AddDocumentEvent event = new AddDocumentEvent();
         try {
-            repository.addDocument(document);
+            csaboss.scanit.network.model.Document doc = new csaboss.scanit.network.model.Document();
+            doc.setText(document.getText());
+            doc.setTitle(document.getTitle());
+            Response res = documentApi.documentPost(doc).execute();
+            if (res.isSuccess()){
+                repository.addDocument(document);
+            }
             bus.post(event);
         } catch (Exception e) {
             event.setThrowable(e);
@@ -71,7 +79,10 @@ public class DocumentInteractor {
     public void removeDocument(Document document) {
         RemoveDocumentEvent event = new RemoveDocumentEvent();
         try {
-            repository.removeDocument(document);
+            Response response = documentApi.documentIdDelete(document.getId()).execute();
+            if(response.isSuccess()) {
+                repository.removeDocument(document);
+            }
             bus.post(event);
         } catch (Exception e) {
             event.setThrowable(e);

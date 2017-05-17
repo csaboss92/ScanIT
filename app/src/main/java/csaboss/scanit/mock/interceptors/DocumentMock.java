@@ -7,7 +7,6 @@ import java.util.List;
 
 import csaboss.scanit.model.Document;
 import csaboss.scanit.network.NetworkConfig;
-import csaboss.scanit.repository.MemoryRepository;
 import csaboss.scanit.utils.GsonHelper;
 import okhttp3.Headers;
 import okhttp3.Request;
@@ -37,10 +36,10 @@ public class DocumentMock {
         if (uri.getPath().equals(NetworkConfig.ENDPOINT_PREFIX + "document") && request.method().equals("POST")) {
             responseString = "Success";
             responseCode = 200;
-        } else if (uri.getPath().equals(NetworkConfig.ENDPOINT_PREFIX + "document") && request.method().equals("Get")) {
+        } else if (uri.getPath().equals(NetworkConfig.ENDPOINT_PREFIX + "document") && request.method().equals("GET")) {
             responseString = GsonHelper.getGson().toJson(documents);
             responseCode = 200;
-        } else if (uri.getPath().matches("\\" + NetworkConfig.ENDPOINT_PREFIX + "document\\/" + "\\d+") && request.method().equals("Get")) {
+        } else if (uri.getPath().matches("\\" + NetworkConfig.ENDPOINT_PREFIX + "document\\/" + "\\d+") && request.method().equals("GET")) {
             long id = Long.parseLong(uri.getPath().substring(uri.getPath().lastIndexOf("/")));
             Document ret = null;
             for (Document doc : documents) {
@@ -55,8 +54,8 @@ public class DocumentMock {
                 responseString = GsonHelper.getGson().toJson(ret);
                 responseCode = 200;
             }
-        } else if (uri.getPath().matches("\\" + NetworkConfig.ENDPOINT_PREFIX + "document\\/" + "\\d+") && request.method().equals("Delete")) {
-            responseString = "Success";
+        } else if (uri.getPath().matches("\\" + NetworkConfig.ENDPOINT_PREFIX + "document\\/" + "\\d+") && request.method().equals("DELETE")) {
+            responseString = GsonHelper.getGson().toJson("Success");
             responseCode = 200;
         } else {
             responseString = "ERROR";

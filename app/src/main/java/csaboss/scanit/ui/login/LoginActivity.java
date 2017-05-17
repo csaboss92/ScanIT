@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -15,6 +16,8 @@ import csaboss.scanit.ui.documentlist.DocumentListActivity;
 
 public class LoginActivity extends AppCompatActivity implements LoginScreen {
 
+    EditText userName;
+    EditText password;
     @Inject
     LoginPresenter loginPresenter;
 
@@ -23,10 +26,13 @@ public class LoginActivity extends AppCompatActivity implements LoginScreen {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Button loginbtn = (Button) findViewById(R.id.login);
+        userName = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
+
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login("Jenő","Nagyonjelszo");
+                login(userName.getText().toString(),password.getText().toString());
             }
         });
         ScanITApplication.injector.inject(this);
@@ -36,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements LoginScreen {
     protected void onStart() {
         super.onStart();
         loginPresenter.attachScreen(this);
+        loginPresenter.getUser();
     }
 
     @Override
@@ -45,16 +52,16 @@ public class LoginActivity extends AppCompatActivity implements LoginScreen {
     }
 
     public void login(String name, String password){
-        //TODO: login;
         loginPresenter.login(name,password);
-
     }
 
     @Override
     public void loginSuccess() {
         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, DocumentListActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
+        finish();
     }
 
     @Override

@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import csaboss.scanit.R;
 import csaboss.scanit.ScanITApplication;
 import csaboss.scanit.model.Document;
+import csaboss.scanit.ui.login.LoginPresenter;
 
 public class DocumentDetailsActivity extends AppCompatActivity implements DocumentDetailsScreen {
 
@@ -23,6 +24,8 @@ public class DocumentDetailsActivity extends AppCompatActivity implements Docume
 
     @Inject
     DocumentDetailsPresenter documentDetailsPresenter;
+    @Inject
+    LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,11 @@ public class DocumentDetailsActivity extends AppCompatActivity implements Docume
                 finish();
                 break;
             case R.id.logout:
-                //TODO
+                documentDetailsPresenter.logout();
+                Intent i = getBaseContext().getPackageManager()
+                        .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
                 break;
         }
 

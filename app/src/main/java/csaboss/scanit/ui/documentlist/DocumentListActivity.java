@@ -20,6 +20,7 @@ import csaboss.scanit.R;
 import csaboss.scanit.ScanITApplication;
 import csaboss.scanit.model.Document;
 import csaboss.scanit.ui.documentcapture.DocumentCapureActivity;
+import csaboss.scanit.ui.login.LoginPresenter;
 
 public class DocumentListActivity extends AppCompatActivity implements DocumentListScreen {
 
@@ -30,6 +31,8 @@ public class DocumentListActivity extends AppCompatActivity implements DocumentL
 
     @Inject
     DocumentListPresenter documentListPresenter;
+    @Inject
+    LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +72,12 @@ public class DocumentListActivity extends AppCompatActivity implements DocumentL
                 startCaptureActivity();
                 break;
             case R.id.logout:
-                //TODO
-                break;
+                documentListPresenter.logout();
+                Intent i = getBaseContext().getPackageManager()
+                        .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                    break;
         }
 
         return super.onOptionsItemSelected(item);

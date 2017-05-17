@@ -12,7 +12,7 @@ public interface UserApi {
    */
   
   @GET("user/login")
-  Call<String> userLoginGet();
+  Call<Void> userLoginGet();
     
 
   

@@ -9,6 +9,7 @@ import csaboss.scanit.interactor.document.DocumentInteractor;
 import csaboss.scanit.interactor.document.events.AddDocumentEvent;
 import csaboss.scanit.interactor.document.events.GetDocumentEvent;
 import csaboss.scanit.interactor.document.events.RemoveDocumentEvent;
+import csaboss.scanit.interactor.user.UserInteractor;
 import csaboss.scanit.model.Document;
 import csaboss.scanit.ui.Presenter;
 import de.greenrobot.event.EventBus;
@@ -19,6 +20,8 @@ import static csaboss.scanit.ScanITApplication.injector;
 public class DocumentDetailsPresenter extends Presenter<DocumentDetailsScreen> {
 
     @Inject
+    UserInteractor userInteractor;
+    @Inject
     DocumentInteractor documentInteractor;
     @Inject
     Executor executor;
@@ -28,6 +31,15 @@ public class DocumentDetailsPresenter extends Presenter<DocumentDetailsScreen> {
     public DocumentDetailsPresenter() {
     }
 
+    public void logout() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                userInteractor.deleteUser();
+            }
+        });
+
+    }
     @Override
     public void attachScreen(DocumentDetailsScreen screen) {
         injector.inject(this);
