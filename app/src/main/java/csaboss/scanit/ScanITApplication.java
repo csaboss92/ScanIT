@@ -14,6 +14,12 @@ public class ScanITApplication extends Application {
 
     public static ScanITApplicationComponent injector;
 
+    public void setInjector(ScanITApplicationComponent appComponent) {
+        injector = appComponent;
+        injector.inject(this);
+        repository.open(getApplicationContext());
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
