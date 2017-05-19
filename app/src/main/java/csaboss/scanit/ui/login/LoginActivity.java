@@ -8,11 +8,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import csaboss.scanit.R;
 import csaboss.scanit.ScanITApplication;
 import csaboss.scanit.ui.documentlist.DocumentListActivity;
+import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends AppCompatActivity implements LoginScreen {
 
@@ -25,6 +31,7 @@ public class LoginActivity extends AppCompatActivity implements LoginScreen {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Fabric.with(this, new Crashlytics());
         Button loginbtn = (Button) findViewById(R.id.login);
         userName = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
@@ -36,6 +43,14 @@ public class LoginActivity extends AppCompatActivity implements LoginScreen {
             }
         });
         ScanITApplication.injector.inject(this);
+        Button crash = (Button) findViewById(R.id.crash);
+        crash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String> a = new ArrayList<String>();
+            a.get(150);
+            }
+        });
     }
 
     @Override

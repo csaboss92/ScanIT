@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,12 +25,16 @@ import csaboss.scanit.model.Document;
 import csaboss.scanit.ui.documentcapture.DocumentCapureActivity;
 import csaboss.scanit.ui.login.LoginPresenter;
 
+import static android.R.attr.name;
+
 public class DocumentListActivity extends AppCompatActivity implements DocumentListScreen {
 
     private RecyclerView recyclerView;
     private DocumentAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<Document> documents;
+
+    Tracker mTracker;
 
     @Inject
     DocumentListPresenter documentListPresenter;
@@ -56,6 +63,9 @@ public class DocumentListActivity extends AppCompatActivity implements DocumentL
         });
 
         ScanITApplication.injector.inject(this);
+
+        ScanITApplication application = (ScanITApplication) getApplication();
+        mTracker = application.getDefaultTracker();
     }
 
     @Override
@@ -99,6 +109,13 @@ public class DocumentListActivity extends AppCompatActivity implements DocumentL
     protected void onStop() {
         super.onStop();
         documentListPresenter.detachScreen();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTracker.setScreenName("Document list");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

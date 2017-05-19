@@ -9,6 +9,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import javax.inject.Inject;
 
 import csaboss.scanit.R;
@@ -26,6 +29,7 @@ public class DocumentDetailsActivity extends AppCompatActivity implements Docume
     DocumentDetailsPresenter documentDetailsPresenter;
     @Inject
     LoginPresenter loginPresenter;
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,8 @@ public class DocumentDetailsActivity extends AppCompatActivity implements Docume
         body = (TextView) findViewById(R.id.document_body);
 
         ScanITApplication.injector.inject(this);
+        ScanITApplication application = (ScanITApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
     }
 
@@ -98,5 +104,11 @@ public class DocumentDetailsActivity extends AppCompatActivity implements Docume
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTracker.setScreenName("Document details");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 }
